@@ -1,6 +1,6 @@
-# Kysely Deno SQLite
+# Kysely SQLite Deno
 
-A dialect for [Kysely](https://kysely.dev/) that adds support for [deno-sqlite](https://github.com/dyedgreen/deno-sqlite).
+A dialect for [Kysely](https://kysely.dev/) that uses [deno-sqlite](https://github.com/dyedgreen/deno-sqlite).
 
 ## Usage
 
