@@ -36,8 +36,8 @@ Previously you couldn't use Kysely with SQLite on Deno, because the built-in sup
 
 The MIT License (MIT)
 
-Copyright (c) 2023 Alex Gleason  
-Copyright (c) 2022 Sami Koskimäki  
+Copyright (c) 2023 Alex Gleason\
+Copyright (c) 2022 Sami Koskimäki
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
