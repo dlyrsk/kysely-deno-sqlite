@@ -2,20 +2,17 @@
   "$schema": "https://deno.land/x/deno@v1.32.3/cli/schemas/config-file.v1.json",
   "lock": false,
   "tasks": {
-    "check": "deno check src/mod.ts"
-  },
-  "imports": {
-    "@/": "./src/"
+    "check": "deno check mod.ts"
   },
   "lint": {
-    "include": ["src/"],
+    "include": ["."],
     "rules": {
       "tags": ["recommended"],
       "exclude": ["no-explicit-any"]
     }
   },
   "fmt": {
-    "include": ["src/"],
+    "include": ["."],
     "useTabs": false,
     "lineWidth": 120,
     "indentWidth": 2,
