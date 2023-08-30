@@ -1,6 +1,6 @@
-import { CompiledQuery, type DatabaseConnection, type DenoSqlite, type Driver, type QueryResult } from '../deps.ts';
+import { CompiledQuery, type DatabaseConnection, type Driver, type QueryResult } from '../deps.ts';
 
-import type { DenoSqliteDialectConfig } from './deno-sqlite-dialect-config.ts';
+import type { DenoSqlite, DenoSqliteDialectConfig } from './deno-sqlite-dialect-config.ts';
 
 class DenoSqliteDriver implements Driver {
   readonly #config: DenoSqliteDialectConfig;
@@ -61,7 +61,6 @@ class DenoSqliteConnection implements DatabaseConnection {
   }
 
   executeQuery<O>({ sql, parameters }: CompiledQuery): Promise<QueryResult<O>> {
-    // @ts-expect-error `parameters` types are incompatible, but they should match in reality.
     const rows = this.#db.queryEntries(sql, parameters);
 
     const { changes, lastInsertRowId } = this.#db;

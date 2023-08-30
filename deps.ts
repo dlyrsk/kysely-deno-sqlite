@@ -13,5 +13,3 @@ export {
   SqliteIntrospector,
   SqliteQueryCompiler,
 } from 'npm:kysely@^0.25.0';
-
-export type { DB as DenoSqlite } from 'https://deno.land/x/sqlite@v3.7.3/mod.ts';
