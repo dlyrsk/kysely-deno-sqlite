@@ -1,7 +1,14 @@
-import { type DenoSqlite, type SqliteDialectConfig } from '../deps.ts';
+import type { SqliteDialectConfig } from '../deps.ts';
+
+interface DenoSqlite {
+  queryEntries: (sql: string, params: any) => unknown[];
+  close: () => void;
+  changes: number;
+  lastInsertRowId: number;
+}
 
 interface DenoSqliteDialectConfig extends Omit<SqliteDialectConfig, 'database'> {
   database: DenoSqlite | (() => Promise<DenoSqlite>);
 }
 
-export type { DenoSqliteDialectConfig };
+export type { DenoSqlite, DenoSqliteDialectConfig };
