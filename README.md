@@ -7,7 +7,7 @@ A dialect for [Kysely](https://kysely.dev/), compatible with both [dyedgreen/den
 ```ts
 import { Kysely } from 'npm:kysely';
 import { DB as Sqlite } from 'https://deno.land/x/sqlite/mod.ts';
-import { DenoSqliteDialect } from 'https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/raw/v1.0.1/mod.ts';
+import { DenoSqliteDialect } from 'https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/raw/v1.1.0/mod.ts';
 
 const db = new Kysely({
   dialect: new DenoSqliteDialect({
