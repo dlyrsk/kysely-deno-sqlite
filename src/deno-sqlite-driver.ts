@@ -61,7 +61,9 @@ class DenoSqliteConnection implements DatabaseConnection {
   }
 
   executeQuery<O>({ sql, parameters }: CompiledQuery): Promise<QueryResult<O>> {
-    const rows = this.#db.queryEntries(sql, parameters);
+    const rows = 'queryEntries' in this.#db
+      ? this.#db.queryEntries(sql, parameters)
+      : this.#db.prepare(sql).all(...parameters);
 
     const { changes, lastInsertRowId } = this.#db;
 

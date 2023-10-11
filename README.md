@@ -1,6 +1,6 @@
 # Kysely SQLite Deno
 
-A dialect for [Kysely](https://kysely.dev/) that uses [deno-sqlite](https://github.com/dyedgreen/deno-sqlite).
+A dialect for [Kysely](https://kysely.dev/), compatible with both [dyedgreen/deno-sqlite](https://github.com/dyedgreen/deno-sqlite) and [denodrivers/sqlite3](https://github.com/denodrivers/sqlite3).
 
 ## Usage
 
@@ -16,7 +16,7 @@ const db = new Kysely({
 });
 ```
 
-Now you can use Kysely as intended!
+Now you can use Kysely on Deno!
 
 ```ts
 const me = 'alex';
@@ -30,7 +30,7 @@ const user = await db.executeTakeFirst();
 
 ## About
 
-Previously you couldn't use Kysely with SQLite on Deno, because the built-in support uses `better-sqlite3` which only works on Node.js. This dialect uses `deno-sqlite` instead, so it will work on Deno. Otherwise, the functionality is the same.
+Previously you couldn't use Kysely with SQLite on Deno, because the built-in support uses `better-sqlite3` which only works on Node.js. This dialect uses the two most popular Deno libraries instead, so it will work on Deno. Otherwise, the functionality is the same.
 
 ## License
 
