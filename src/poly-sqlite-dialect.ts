@@ -10,9 +10,9 @@ import {
   SqliteQueryCompiler,
 } from '../deps.ts';
 
-import { PolySqliteDriver } from './deno-sqlite-driver.ts';
+import { PolySqliteDriver } from './poly-sqlite-driver.ts';
 
-import type { PolySqliteDialectConfig } from './deno-sqlite-dialect-config.ts';
+import type { PolySqliteDialectConfig } from './poly-sqlite-dialect-config.ts';
 
 class PolySqliteDialect implements Dialect {
   readonly #config: PolySqliteDialectConfig;

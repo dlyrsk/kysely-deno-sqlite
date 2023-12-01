@@ -1,6 +1,6 @@
 import { CompiledQuery, type DatabaseConnection, type Driver, type QueryResult } from '../deps.ts';
 
-import type { PolySqlite, PolySqliteDialectConfig } from './deno-sqlite-dialect-config.ts';
+import type { PolySqlite, PolySqliteDialectConfig } from './poly-sqlite-dialect-config.ts';
 
 class PolySqliteDriver implements Driver {
   readonly #config: PolySqliteDialectConfig;
