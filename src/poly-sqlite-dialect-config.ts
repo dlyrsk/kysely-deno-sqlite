@@ -6,7 +6,7 @@ interface PolySqlite {
 }
 
 interface PolySqliteDialectConfig extends Omit<SqliteDialectConfig, 'database'> {
-  database: PolySqlite | (() => Promise<PolySqlite>);
+  database: PolySqlite;
 }
 
 export type { PolySqlite, PolySqliteDialectConfig };

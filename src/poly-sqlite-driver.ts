@@ -6,7 +6,6 @@ class PolySqliteDriver implements Driver {
   readonly #config: PolySqliteDialectConfig;
   readonly #connectionMutex = new ConnectionMutex();
 
-  #db?: PolySqlite;
   #connection?: DatabaseConnection;
 
   constructor(config: PolySqliteDialectConfig) {
@@ -14,9 +13,7 @@ class PolySqliteDriver implements Driver {
   }
 
   async init(): Promise<void> {
-    this.#db = typeof this.#config.database === 'function' ? await this.#config.database() : this.#config.database;
-
-    this.#connection = new PolySqliteConnection(this.#db);
+    this.#connection = new PolySqliteConnection(this.#config.database);
 
     if (this.#config.onCreateConnection) {
       await this.#config.onCreateConnection(this.#connection);
@@ -49,7 +46,7 @@ class PolySqliteDriver implements Driver {
 
   // deno-lint-ignore require-await
   async destroy(): Promise<void> {
-    this.#db?.destroy();
+    this.#config.database?.destroy();
   }
 }
 

@@ -11,16 +11,14 @@ interface DenoSqlite {
 }
 
 interface DenoSqliteDialectConfig extends Omit<PolySqliteDialectConfig, 'database'> {
-  database: DenoSqlite | (() => Promise<DenoSqlite>);
+  database: DenoSqlite;
 }
 
 class DenoSqliteDialect extends PolySqliteDialect {
   constructor({ database, ...config }: DenoSqliteDialectConfig) {
     super({
       ...config,
-      database: typeof database === 'function'
-        ? async () => DenoSqliteAdapter(await database())
-        : DenoSqliteAdapter(database),
+      database: DenoSqliteAdapter(database),
     });
   }
 }
