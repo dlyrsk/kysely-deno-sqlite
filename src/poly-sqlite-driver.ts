@@ -1,22 +1,19 @@
-import { CompiledQuery, type DatabaseConnection, type Driver, type QueryResult } from '../deps.ts';
+import { CompiledQuery, type DatabaseConnection, type Driver, type QueryResult } from './deps.ts';
 
-import type { DenoSqlite, DenoSqliteDialectConfig } from './deno-sqlite-dialect-config.ts';
+import type { PolySqlite, PolySqliteDialectConfig } from './poly-sqlite-dialect-config.ts';
 
-class DenoSqliteDriver implements Driver {
-  readonly #config: DenoSqliteDialectConfig;
+class PolySqliteDriver implements Driver {
+  readonly #config: PolySqliteDialectConfig;
   readonly #connectionMutex = new ConnectionMutex();
 
-  #db?: DenoSqlite;
   #connection?: DatabaseConnection;
 
-  constructor(config: DenoSqliteDialectConfig) {
+  constructor(config: PolySqliteDialectConfig) {
     this.#config = Object.freeze({ ...config });
   }
 
   async init(): Promise<void> {
-    this.#db = typeof this.#config.database === 'function' ? await this.#config.database() : this.#config.database;
-
-    this.#connection = new DenoSqliteConnection(this.#db);
+    this.#connection = new PolySqliteConnection(this.#config.database);
 
     if (this.#config.onCreateConnection) {
       await this.#config.onCreateConnection(this.#connection);
@@ -49,34 +46,24 @@ class DenoSqliteDriver implements Driver {
 
   // deno-lint-ignore require-await
   async destroy(): Promise<void> {
-    this.#db?.close();
+    this.#config.database?.destroy();
   }
 }
 
-class DenoSqliteConnection implements DatabaseConnection {
-  readonly #db: DenoSqlite;
+class PolySqliteConnection implements DatabaseConnection {
+  readonly #db: PolySqlite;
 
-  constructor(db: DenoSqlite) {
+  constructor(db: PolySqlite) {
     this.#db = db;
   }
 
-  executeQuery<O>({ sql, parameters }: CompiledQuery): Promise<QueryResult<O>> {
-    const rows = 'queryEntries' in this.#db
-      ? this.#db.queryEntries(sql, parameters)
-      : this.#db.prepare(sql).all(...parameters);
-
-    const { changes, lastInsertRowId } = this.#db;
-
-    return Promise.resolve({
-      rows: rows as O[],
-      numAffectedRows: BigInt(changes),
-      insertId: BigInt(lastInsertRowId),
-    });
+  executeQuery<R>(query: CompiledQuery): Promise<QueryResult<R>> {
+    return this.#db.executeQuery<R>(query);
   }
 
   // deno-lint-ignore require-yield
   async *streamQuery<R>(): AsyncIterableIterator<QueryResult<R>> {
-    throw new Error('Sqlite driver doesn\'t support streaming');
+    throw new Error('SQLite doesn\'t support streaming');
   }
 }
 
@@ -104,4 +91,4 @@ class ConnectionMutex {
   }
 }
 
-export { DenoSqliteDriver };
+export { PolySqliteDriver };

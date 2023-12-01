@@ -1,17 +1,60 @@
 # Kysely SQLite Deno
 
-A dialect for [Kysely](https://kysely.dev/), compatible with both [dyedgreen/deno-sqlite](https://github.com/dyedgreen/deno-sqlite) and [denodrivers/sqlite3](https://github.com/denodrivers/sqlite3).
+A dialect for [Kysely](https://kysely.dev/), compatible with both [dyedgreen/deno-sqlite](https://github.com/dyedgreen/deno-sqlite) and [denodrivers/sqlite3](https://github.com/denodrivers/sqlite3), or your own custom SQLite library.
 
 ## Usage
+
+To use with `deno-sqlite`:
 
 ```ts
 import { Kysely } from 'npm:kysely';
 import { DB as Sqlite } from 'https://deno.land/x/sqlite/mod.ts';
-import { DenoSqliteDialect } from 'https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/raw/v1.1.0/mod.ts';
+import { DenoSqliteDialect } from 'https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/raw/v2.0.0/mod.ts';
 
 const db = new Kysely({
   dialect: new DenoSqliteDialect({
     database: new Sqlite('db.sqlite3'),
+  }),
+});
+```
+
+To use with `sqlite3`:
+
+```ts
+import { Kysely } from 'npm:kysely';
+export { Database as Sqlite } from 'https://deno.land/x/sqlite3/mod.ts';
+import { DenoSqlite3Dialect } from 'https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/raw/v2.0.0/mod.ts';
+
+const db = new Kysely({
+  dialect: new DenoSqlite3Dialect({
+    database: new Sqlite('db.sqlite3'),
+  }),
+});
+```
+
+To use with a custom SQLite library:
+
+```ts
+import { Kysely, type CompiledQuery, type QueryResult } from 'npm:kysely';
+import { PolySqliteDialect } from 'https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/raw/v2.0.0/mod.ts';
+
+const db = new Kysely({
+  dialect: new PolySqliteDialect({
+    database: {
+      async executeQuery<R>({ sql, parameters }: CompiledQuery): Promise<QueryResult<R>> {
+        const { rows, numAffectedRows, insertId } = // ... execute query
+
+        // You have to return this object. How you do it is up to you.
+        return {
+          rows: rows as R[],
+          numAffectedRows: BigInt(numAffectedRows),
+          insertId: BigInt(insertId),
+        };
+      },
+      async destroy() {
+        // ... close database
+      },
+    },
   }),
 });
 ```
@@ -27,10 +70,6 @@ const query = db.selectFrom('users').selectAll()
 
 const user = await db.executeTakeFirst();
 ```
-
-## About
-
-Previously you couldn't use Kysely with SQLite on Deno, because the built-in support uses `better-sqlite3` which only works on Node.js. This dialect uses the two most popular Deno libraries instead, so it will work on Deno. Otherwise, the functionality is the same.
 
 ## License
 

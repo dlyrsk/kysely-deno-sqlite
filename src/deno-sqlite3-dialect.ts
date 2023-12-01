@@ -2,32 +2,34 @@ import { CompiledQuery, QueryResult } from './deps.ts';
 import { PolySqlite, PolySqliteDialectConfig } from './poly-sqlite-dialect-config.ts';
 import { PolySqliteDialect } from './poly-sqlite-dialect.ts';
 
-/** [dyedgreen/deno-sqlite](https://github.com/dyedgreen/deno-sqlite) */
-interface DenoSqlite {
+/** [denodrivers/sqlite3](https://github.com/denodrivers/sqlite3) */
+interface DenoSqlite3 {
   close(): void;
   changes: number;
   lastInsertRowId: number;
-  queryEntries(sql: string, params: any): unknown[];
+  prepare(sql: string): {
+    all(...params: any): unknown[];
+  };
 }
 
-interface DenoSqliteDialectConfig extends Omit<PolySqliteDialectConfig, 'database'> {
-  database: DenoSqlite;
+interface DenoSqlite3DialectConfig extends Omit<PolySqliteDialectConfig, 'database'> {
+  database: DenoSqlite3;
 }
 
-class DenoSqliteDialect extends PolySqliteDialect {
-  constructor({ database, ...config }: DenoSqliteDialectConfig) {
+class DenoSqlite3Dialect extends PolySqliteDialect {
+  constructor({ database, ...config }: DenoSqlite3DialectConfig) {
     super({
       ...config,
-      database: DenoSqliteAdapter(database),
+      database: DenoSqlite3Adapter(database),
     });
   }
 }
 
-function DenoSqliteAdapter(db: DenoSqlite): PolySqlite {
+function DenoSqlite3Adapter(db: DenoSqlite3): PolySqlite {
   return {
     // deno-lint-ignore require-await
     async executeQuery<R>({ sql, parameters }: CompiledQuery): Promise<QueryResult<R>> {
-      const rows = db.queryEntries(sql, parameters);
+      const rows = db.prepare(sql).all(...parameters);
       const { changes, lastInsertRowId } = db;
 
       return Promise.resolve({
@@ -43,4 +45,4 @@ function DenoSqliteAdapter(db: DenoSqlite): PolySqlite {
   };
 }
 
-export { DenoSqliteDialect, type DenoSqliteDialectConfig };
+export { DenoSqlite3Dialect, type DenoSqlite3DialectConfig };

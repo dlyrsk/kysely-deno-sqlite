@@ -1,4 +1,6 @@
-export { DenoSqliteDialect } from './src/deno-sqlite-dialect.ts';
-export { DenoSqliteDriver } from './src/deno-sqlite-driver.ts';
+export { DenoSqliteDialect, type DenoSqliteDialectConfig } from './src/deno-sqlite-dialect.ts';
+export { DenoSqlite3Dialect, type DenoSqlite3DialectConfig } from './src/deno-sqlite3-dialect.ts';
+export { PolySqliteDialect } from './src/poly-sqlite-dialect.ts';
+export { PolySqliteDriver } from './src/poly-sqlite-driver.ts';
 
-export type { DenoSqliteDialectConfig } from './src/deno-sqlite-dialect-config.ts';
+export type { PolySqliteDialectConfig } from './src/poly-sqlite-dialect-config.ts';
