@@ -1,12 +1,12 @@
 import { CompiledQuery, type DatabaseConnection, type Driver, type QueryResult } from '../deps.ts';
 
-import type { DenoSqlite, DenoSqliteDialectConfig } from './deno-sqlite-dialect-config.ts';
+import type { DenoSqliteDialectConfig, SqliteLib } from './deno-sqlite-dialect-config.ts';
 
 class DenoSqliteDriver implements Driver {
   readonly #config: DenoSqliteDialectConfig;
   readonly #connectionMutex = new ConnectionMutex();
 
-  #db?: DenoSqlite;
+  #db?: SqliteLib;
   #connection?: DatabaseConnection;
 
   constructor(config: DenoSqliteDialectConfig) {
@@ -49,34 +49,24 @@ class DenoSqliteDriver implements Driver {
 
   // deno-lint-ignore require-await
   async destroy(): Promise<void> {
-    this.#db?.close();
+    this.#db?.destroy();
   }
 }
 
 class DenoSqliteConnection implements DatabaseConnection {
-  readonly #db: DenoSqlite;
+  readonly #db: SqliteLib;
 
-  constructor(db: DenoSqlite) {
+  constructor(db: SqliteLib) {
     this.#db = db;
   }
 
-  executeQuery<O>({ sql, parameters }: CompiledQuery): Promise<QueryResult<O>> {
-    const rows = 'queryEntries' in this.#db
-      ? this.#db.queryEntries(sql, parameters)
-      : this.#db.prepare(sql).all(...parameters);
-
-    const { changes, lastInsertRowId } = this.#db;
-
-    return Promise.resolve({
-      rows: rows as O[],
-      numAffectedRows: BigInt(changes),
-      insertId: BigInt(lastInsertRowId),
-    });
+  executeQuery<R>(query: CompiledQuery): Promise<QueryResult<R>> {
+    return this.#db.executeQuery<R>(query);
   }
 
   // deno-lint-ignore require-yield
   async *streamQuery<R>(): AsyncIterableIterator<QueryResult<R>> {
-    throw new Error('Sqlite driver doesn\'t support streaming');
+    throw new Error('SQLite doesn\'t support streaming');
   }
 }
 
