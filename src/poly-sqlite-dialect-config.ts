@@ -1,4 +1,4 @@
-import type { CompiledQuery, QueryResult, SqliteDialectConfig } from '../deps.ts';
+import type { CompiledQuery, QueryResult, SqliteDialectConfig } from './deps.ts';
 
 interface PolySqlite {
   executeQuery<R>({ sql, parameters }: CompiledQuery): Promise<QueryResult<R>>;

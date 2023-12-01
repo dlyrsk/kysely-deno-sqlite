@@ -1,4 +1,4 @@
-import { CompiledQuery, type DatabaseConnection, type Driver, type QueryResult } from '../deps.ts';
+import { CompiledQuery, type DatabaseConnection, type Driver, type QueryResult } from './deps.ts';
 
 import type { PolySqlite, PolySqliteDialectConfig } from './poly-sqlite-dialect-config.ts';
 
