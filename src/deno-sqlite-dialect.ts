@@ -10,19 +10,19 @@ import {
   SqliteQueryCompiler,
 } from '../deps.ts';
 
-import { DenoSqliteDriver } from './deno-sqlite-driver.ts';
+import { PolySqliteDriver } from './deno-sqlite-driver.ts';
 
-import type { DenoSqliteDialectConfig } from './deno-sqlite-dialect-config.ts';
+import type { PolySqliteDialectConfig } from './deno-sqlite-dialect-config.ts';
 
-class DenoSqliteDialect implements Dialect {
-  readonly #config: DenoSqliteDialectConfig;
+class PolySqliteDialect implements Dialect {
+  readonly #config: PolySqliteDialectConfig;
 
-  constructor(config: DenoSqliteDialectConfig) {
+  constructor(config: PolySqliteDialectConfig) {
     this.#config = Object.freeze({ ...config });
   }
 
   createDriver(): Driver {
-    return new DenoSqliteDriver(this.#config);
+    return new PolySqliteDriver(this.#config);
   }
 
   createQueryCompiler(): QueryCompiler {
@@ -38,4 +38,4 @@ class DenoSqliteDialect implements Dialect {
   }
 }
 
-export { DenoSqliteDialect };
+export { PolySqliteDialect };

@@ -1,22 +1,22 @@
 import { CompiledQuery, type DatabaseConnection, type Driver, type QueryResult } from '../deps.ts';
 
-import type { DenoSqliteDialectConfig, SqliteLib } from './deno-sqlite-dialect-config.ts';
+import type { PolySqlite, PolySqliteDialectConfig } from './deno-sqlite-dialect-config.ts';
 
-class DenoSqliteDriver implements Driver {
-  readonly #config: DenoSqliteDialectConfig;
+class PolySqliteDriver implements Driver {
+  readonly #config: PolySqliteDialectConfig;
   readonly #connectionMutex = new ConnectionMutex();
 
-  #db?: SqliteLib;
+  #db?: PolySqlite;
   #connection?: DatabaseConnection;
 
-  constructor(config: DenoSqliteDialectConfig) {
+  constructor(config: PolySqliteDialectConfig) {
     this.#config = Object.freeze({ ...config });
   }
 
   async init(): Promise<void> {
     this.#db = typeof this.#config.database === 'function' ? await this.#config.database() : this.#config.database;
 
-    this.#connection = new DenoSqliteConnection(this.#db);
+    this.#connection = new PolySqliteConnection(this.#db);
 
     if (this.#config.onCreateConnection) {
       await this.#config.onCreateConnection(this.#connection);
@@ -53,10 +53,10 @@ class DenoSqliteDriver implements Driver {
   }
 }
 
-class DenoSqliteConnection implements DatabaseConnection {
-  readonly #db: SqliteLib;
+class PolySqliteConnection implements DatabaseConnection {
+  readonly #db: PolySqlite;
 
-  constructor(db: SqliteLib) {
+  constructor(db: PolySqlite) {
     this.#db = db;
   }
 
@@ -94,4 +94,4 @@ class ConnectionMutex {
   }
 }
 
-export { DenoSqliteDriver };
+export { PolySqliteDriver };

@@ -1,12 +1,12 @@
 import type { CompiledQuery, QueryResult, SqliteDialectConfig } from '../deps.ts';
 
-interface SqliteLib {
+interface PolySqlite {
   executeQuery<R>({ sql, parameters }: CompiledQuery): Promise<QueryResult<R>>;
   destroy(): Promise<void>;
 }
 
-interface DenoSqliteDialectConfig extends Omit<SqliteDialectConfig, 'database'> {
-  database: SqliteLib | (() => Promise<SqliteLib>);
+interface PolySqliteDialectConfig extends Omit<SqliteDialectConfig, 'database'> {
+  database: PolySqlite | (() => Promise<PolySqlite>);
 }
 
-export type { DenoSqliteDialectConfig, SqliteLib };
+export type { PolySqlite, PolySqliteDialectConfig };
