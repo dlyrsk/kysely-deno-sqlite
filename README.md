@@ -9,7 +9,7 @@ To use with `deno-sqlite`:
 ```ts
 import { Kysely } from 'npm:kysely';
 import { DB as Sqlite } from 'https://deno.land/x/sqlite/mod.ts';
-import { DenoSqliteDialect } from 'https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/raw/v2.0.0/mod.ts';
+import { DenoSqliteDialect } from 'https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/raw/v2.0.1/mod.ts';
 
 const db = new Kysely({
   dialect: new DenoSqliteDialect({
@@ -23,7 +23,7 @@ To use with `sqlite3`:
 ```ts
 import { Kysely } from 'npm:kysely';
 export { Database as Sqlite } from 'https://deno.land/x/sqlite3/mod.ts';
-import { DenoSqlite3Dialect } from 'https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/raw/v2.0.0/mod.ts';
+import { DenoSqlite3Dialect } from 'https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/raw/v2.0.1/mod.ts';
 
 const db = new Kysely({
   dialect: new DenoSqlite3Dialect({
@@ -36,7 +36,7 @@ To use with a custom SQLite library:
 
 ```ts
 import { Kysely, type CompiledQuery, type QueryResult } from 'npm:kysely';
-import { PolySqliteDialect } from 'https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/raw/v2.0.0/mod.ts';
+import { PolySqliteDialect } from 'https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/raw/v2.0.1/mod.ts';
 
 const db = new Kysely({
   dialect: new PolySqliteDialect({
