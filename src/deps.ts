@@ -12,4 +12,4 @@ export {
   type SqliteDialectConfig,
   SqliteIntrospector,
   SqliteQueryCompiler,
-} from 'npm:kysely@^0.26.3';
+} from 'npm:kysely@^0.27.2';

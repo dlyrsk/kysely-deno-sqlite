@@ -63,7 +63,7 @@ class PolySqliteConnection implements DatabaseConnection {
 
   // deno-lint-ignore require-yield
   async *streamQuery<R>(): AsyncIterableIterator<QueryResult<R>> {
-    throw new Error('SQLite doesn\'t support streaming');
+    throw new Error("SQLite doesn't support streaming");
   }
 }
 
