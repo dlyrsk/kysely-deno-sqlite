@@ -1,15 +1,19 @@
 # Kysely SQLite Deno
 
-A dialect for [Kysely](https://kysely.dev/), compatible with both [dyedgreen/deno-sqlite](https://github.com/dyedgreen/deno-sqlite) and [denodrivers/sqlite3](https://github.com/denodrivers/sqlite3), or your own custom SQLite library.
+A dialect for [Kysely], compatible with both [dyedgreen/deno-sqlite] and [denodrivers/sqlite3], or your own custom SQLite library.
+
+[Kysely]: https://kysely.dev/
+[dyedgreen/deno-sqlite]: https://github.com/dyedgreen/deno-sqlite
+[denodrivers/sqlite3]: https://github.com/denodrivers/sqlite3
 
 ## Usage
 
-To use with `deno-sqlite`:
+To use with [dyedgreen/deno-sqlite]:
 
 ```ts
 import { Kysely } from 'npm:kysely';
 import { DB as Sqlite } from 'https://deno.land/x/sqlite/mod.ts';
-import { DenoSqliteDialect } from 'https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/raw/v2.0.1/mod.ts';
+import { DenoSqliteDialect } from 'jsr:@soapbox/kysely-deno-sqlite';
 
 const db = new Kysely({
   dialect: new DenoSqliteDialect({
@@ -18,12 +22,12 @@ const db = new Kysely({
 });
 ```
 
-To use with `sqlite3`:
+To use with [denodrivers/sqlite3]:
 
 ```ts
 import { Kysely } from 'npm:kysely';
-export { Database as Sqlite } from 'https://deno.land/x/sqlite3/mod.ts';
-import { DenoSqlite3Dialect } from 'https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/raw/v2.0.1/mod.ts';
+export { Database as Sqlite } from 'jsr:@db/sqlite';
+import { DenoSqlite3Dialect } from 'jsr:@soapbox/kysely-deno-sqlite';
 
 const db = new Kysely({
   dialect: new DenoSqlite3Dialect({
@@ -36,7 +40,7 @@ To use with a custom SQLite library:
 
 ```ts
 import { Kysely, type CompiledQuery, type QueryResult } from 'npm:kysely';
-import { PolySqliteDialect } from 'https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/raw/v2.0.1/mod.ts';
+import { PolySqliteDialect } from 'jsr:@soapbox/kysely-deno-sqlite';
 
 const db = new Kysely({
   dialect: new PolySqliteDialect({
@@ -75,8 +79,9 @@ const user = await db.executeTakeFirst();
 
 The MIT License (MIT)
 
-Copyright (c) 2023 Alex Gleason\
-Copyright (c) 2022 Sami Koskimäki
+Copyright (c) Alex Gleason\
+Copyright (c) Sami Koskimäki\
+Copyright (c) Siddharth Singh
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
