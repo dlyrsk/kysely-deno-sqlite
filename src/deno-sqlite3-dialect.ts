@@ -2,6 +2,10 @@ import { CompiledQuery, QueryResult } from './deps.ts';
 import { PolySqlite, PolySqliteDialectConfig } from './poly-sqlite-dialect-config.ts';
 import { PolySqliteDialect } from './poly-sqlite-dialect.ts';
 
+interface DenoSqlite3Statement {
+  [Symbol.iterator](): IterableIterator<any>;
+}
+
 /** [denodrivers/sqlite3](https://github.com/denodrivers/sqlite3) */
 interface DenoSqlite3 {
   close(): void;
@@ -9,6 +13,7 @@ interface DenoSqlite3 {
   lastInsertRowId: number;
   prepare(sql: string): {
     all(...params: any): unknown[];
+    bind(...params: any): DenoSqlite3Statement;
   };
 }
 
@@ -37,6 +42,12 @@ function DenoSqlite3Adapter(db: DenoSqlite3): PolySqlite {
         numAffectedRows: BigInt(changes),
         insertId: BigInt(lastInsertRowId),
       });
+    },
+    async *streamQuery<R>({ sql, parameters }: CompiledQuery): AsyncIterableIterator<QueryResult<R>> {
+      const stmt = db.prepare(sql).bind(parameters);
+      for (const row of stmt) {
+        yield row;
+      }
     },
     // deno-lint-ignore require-await
     async destroy() {
