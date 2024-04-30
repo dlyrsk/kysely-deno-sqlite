@@ -36,6 +36,10 @@ function DenoSqliteAdapter(db: DenoSqlite): PolySqlite {
         insertId: BigInt(lastInsertRowId),
       });
     },
+    // deno-lint-ignore require-yield
+    async *streamQuery<R>(): AsyncIterableIterator<QueryResult<R>> {
+      throw new Error('DenoSqliteAdapter does not have streaming support.');
+    },
     // deno-lint-ignore require-await
     async destroy() {
       db.close();
