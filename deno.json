@@ -2,12 +2,13 @@
   "$schema": "https://deno.land/x/deno@v1.41.0/cli/schemas/config-file.v1.json",
   "lock": false,
   "name": "@soapbox/kysely-deno-sqlite",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "exports": "./mod.ts",
   "tasks": {
-    "test": "deno test -A --unstable",
+    "test": "deno test -A",
     "check": "deno check mod.ts"
   },
+  "unstable": ["ffi"],
   "lint": {
     "include": ["."],
     "rules": {

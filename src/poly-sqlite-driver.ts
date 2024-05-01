@@ -62,6 +62,9 @@ class PolySqliteConnection implements DatabaseConnection {
   }
 
   streamQuery<R>(query: CompiledQuery): AsyncIterableIterator<QueryResult<R>> {
+    if (!this.#db.streamQuery) {
+      throw new Error('Streaming queries are not supported by the database driver.');
+    }
     return this.#db.streamQuery<R>(query);
   }
 }

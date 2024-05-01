@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2024-05-01
+
+### Fixed
+
+- Made `streamQuery` an optional method.
+
 ## [2.1.0] - 2024-05-01
 
 [!5]: https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/merge_requests/5
@@ -56,7 +62,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release.
 
-[unreleased]: https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/compare/v2.1.0...HEAD
+[unreleased]: https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/compare/v2.2.0...HEAD
+[2.2.0]: https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/compare/v2.1.0...v2.2.0
 [2.1.0]: https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/compare/v2.0.2...v2.1.0
 [2.0.2]: https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/compare/v2.0.1...v2.0.2
 [2.0.1]: https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/compare/v2.0.0...v2.0.1
