@@ -47,7 +47,7 @@ function DenoSqlite3Adapter(db: DenoSqlite3): PolySqlite {
       const stmt = db.prepare(sql).bind(parameters);
       for (const row of stmt) {
         yield {
-          rows: [row]
+          rows: [row],
         };
       }
     },
