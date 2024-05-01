@@ -46,7 +46,9 @@ function DenoSqlite3Adapter(db: DenoSqlite3): PolySqlite {
     async *streamQuery<R>({ sql, parameters }: CompiledQuery): AsyncIterableIterator<QueryResult<R>> {
       const stmt = db.prepare(sql).bind(parameters);
       for (const row of stmt) {
-        yield row;
+        yield {
+          rows: [row],
+        };
       }
     },
     // deno-lint-ignore require-await
