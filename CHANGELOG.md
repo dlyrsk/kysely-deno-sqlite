@@ -10,13 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.1.0] - 2024-04-30
+## [2.1.0] - 2024-05-01
 
 [!5]: https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/merge_requests/5
+[!7]: https://gitlab.com/soapbox-pub/kysely-deno-sqlite/-/merge_requests/7
 
 ### Added
 
-- Streaming support for [denodrivers/sqlite3] ([!5])
+- Streaming support for [denodrivers/sqlite3] ([!5], [!7])
 
 ## [2.0.2] - 2024-03-06
 
