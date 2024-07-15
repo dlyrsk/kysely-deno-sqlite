@@ -10,10 +10,21 @@ A dialect for [Kysely], compatible with both [dyedgreen/deno-sqlite] and [denodr
 
 To use with [dyedgreen/deno-sqlite]:
 
-```ts
-import { Kysely } from 'npm:kysely';
-import { DB as Sqlite } from 'https://deno.land/x/sqlite/mod.ts';
-import { DenoSqliteDialect } from 'jsr:@soapbox/kysely-deno-sqlite';
+Add dependency to import_map.json or deno.jsonc:
+
+```json
+{
+  "imports": {
+	  "kysely": "https://cdn.jsdelivr.net/npm/kysely@0.27.4/dist/esm/index.js",
+	  "@dlyrsk/kysely-deno-sqlite": "https://cdn.jsdelivr.net/gh/dlyrsk/kysely-deno-sqlite/mod.ts",
+  }
+}
+```
+
+
+```typescript
+import { Kysely } from "kysely";
+import { DenoSqliteDialect } from "@dlyrsk/kysely-deno-sqlite";
 
 const db = new Kysely({
   dialect: new DenoSqliteDialect({
@@ -22,58 +33,6 @@ const db = new Kysely({
 });
 ```
 
-To use with [denodrivers/sqlite3]:
-
-```ts
-import { Kysely } from 'npm:kysely';
-export { Database as Sqlite } from 'jsr:@db/sqlite';
-import { DenoSqlite3Dialect } from 'jsr:@soapbox/kysely-deno-sqlite';
-
-const db = new Kysely({
-  dialect: new DenoSqlite3Dialect({
-    database: new Sqlite('db.sqlite3'),
-  }),
-});
-```
-
-To use with a custom SQLite library:
-
-```ts
-import { Kysely, type CompiledQuery, type QueryResult } from 'npm:kysely';
-import { PolySqliteDialect } from 'jsr:@soapbox/kysely-deno-sqlite';
-
-const db = new Kysely({
-  dialect: new PolySqliteDialect({
-    database: {
-      async executeQuery<R>({ sql, parameters }: CompiledQuery): Promise<QueryResult<R>> {
-        const { rows, numAffectedRows, insertId } = // ... execute query
-
-        // You have to return this object. How you do it is up to you.
-        return {
-          rows: rows as R[],
-          numAffectedRows: BigInt(numAffectedRows),
-          insertId: BigInt(insertId),
-        };
-      },
-      async destroy() {
-        // ... close database
-      },
-    },
-  }),
-});
-```
-
-Now you can use Kysely on Deno!
-
-```ts
-const me = 'alex';
-
-const query = db.selectFrom('users').selectAll()
-  .where('name', '=', me)
-  .limit(1);
-
-const user = await db.executeTakeFirst();
-```
 
 ## License
 
